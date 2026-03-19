@@ -1,24 +1,22 @@
 import { Exercise } from '../utils/types'
 
 const GEMINI_API_URL =
-  'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent'
+  'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'
 
 function buildSystemPrompt(subject: string, topic: string): string {
-  return `Eres un tutor experto de ${subject} para estudiantes de bachillerato.
-Tu tarea es generar UN ejercicio sobre el tema "${topic}".
+  return `Eres un tutor de ${subject} para bachillerato. Genera UN ejercicio sobre "${topic}".
 
-REGLAS ESTRICTAS:
-1. El ejercicio debe ser de nivel bachillerato, claro y bien redactado en español.
-2. Incluye datos numéricos concretos para que el alumno pueda resolver el problema.
-3. La respuesta correcta debe ser un valor numérico con sus unidades.
-4. Genera exactamente 3 pistas que vayan de general a específica.
-5. La tolerancia indica el margen aceptable para la respuesta numérica (ej. "±0.5", "±2%").
+REGLAS:
+1. Problema: enunciado claro en español con datos numéricos
+2. Respuesta: valor numérico con unidades
+3. Pistas: exactamente 3, de general a específica
+4. Tolerancia: margen aceptable (ej. "±0.5" o "±10%")
 
-DEBES responder ÚNICAMENTE con un JSON válido, sin texto adicional, sin bloques de código markdown, con esta estructura exacta:
+RESPONDE SOLO CON ESTE JSON (sin markdown, sin explicaciones):
 {
-  "problema": "Enunciado completo del problema",
-  "pistas": ["Pista 1 (general)", "Pista 2 (más específica)", "Pista 3 (casi la solución)"],
-  "respuesta_correcta": "Valor numérico con unidades",
+  "problema": "Enunciado del problema",
+  "pistas": ["Pista 1", "Pista 2", "Pista 3"],
+  "respuesta_correcta": "Valor con unidades",
   "tolerancia": "±margen"
 }`
 }
@@ -40,8 +38,8 @@ export async function fetchExercise(
         },
       ],
       generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 1024,
+        temperature: 0.5,
+        maxOutputTokens: 512,
       },
     }),
   })
