@@ -1,7 +1,7 @@
 import { Exercise } from '../utils/types'
 
 const GEMINI_API_URL =
-  'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'
+  'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
 
 function buildSystemPrompt(subject: string, topic: string): string {
   return `Eres un tutor de ${subject} para bachillerato. Genera UN ejercicio sobre "${topic}".
